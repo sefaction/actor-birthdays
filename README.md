@@ -5,12 +5,12 @@
 In Foundry Setup, open **Add-on Modules → Install Module** and paste this manifest URL:
 
 ```text
-https://github.com/sefaction/actor-birthdays/releases/latest/download/module.json
+https://raw.githubusercontent.com/sefaction/actor-birthdays/main/module.json
 ```
 
 ### Manual installation
 
-1. Copy the entire `actor-birthdays` folder into your Foundry user data's `Data/modules` directory.
+1. Extract the repository ZIP, rename the extracted folder to `actor-birthdays`, and copy it into your Foundry user data's `Data/modules` directory.
 2. Restart Foundry. In your world, enable Actor Birthdays and Simple Calendar under **Manage Modules**.
 3. Open an actor sheet and click **Birthdate** in the header. Pick the in-world year, month, and day, then click **Save**. The header shows the actor's age and opens the same editor when clicked.
 
