@@ -1,8 +1,8 @@
 {
   "id": "actor-birthdays",
   "title": "Actor Birthdays",
-  "description": "Track actor ages and announce birthdays using Simple Calendar.",
-  "version": "1.0.0",
+  "description": "Track actor ages and announce birthdays using TheRipper93's Simple Timekeeping & Calendar or Simple Calendar.",
+  "version": "1.1.0",
   "compatibility": { "minimum": "12" },
   "esmodules": ["birthdays.mjs"],
   "url": "https://github.com/sefaction/actor-birthdays",
