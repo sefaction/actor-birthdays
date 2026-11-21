@@ -10,11 +10,11 @@ https://raw.githubusercontent.com/sefaction/actor-birthdays/main/module.json
 
 ### Manual installation
 
-1. Extract the repository ZIP, rename the extracted folder to `actor-birthdays`, and copy it into your Foundry user data's `Data/modules` directory.
-2. Restart Foundry. In your world, enable Actor Birthdays and Simple Calendar under **Manage Modules**.
+1. Copy the entire `actor-birthdays` folder into your Foundry user data's `Data/modules` directory.
+2. Restart Foundry. In your world, enable Actor Birthdays and Simple Timekeeping & Calendar by TheRipper93 (or Simple Calendar) under **Manage Modules**.
 3. Open an actor sheet and click **Birthdate** in the header. Pick the in-world year, month, and day, then click **Save**. The header shows the actor's age and opens the same editor when clicked.
 
-The module targets Foundry VTT 12 and later with a Simple Calendar version that works on your Foundry release and provides the Simple Calendar 2.4 API.
+Simple Timekeeping & Calendar integration requires Foundry VTT 13 or later and uses the configured Foundry world calendar. Simple Calendar 2.4 API integration remains available on Foundry VTT 12 and later. When both calendar modules are enabled, Simple Timekeeping takes priority. Birthdates saved for a different calendar remain stored and can be viewed by switching back to that calendar.
 
 ## How it works
 
@@ -24,4 +24,4 @@ The module targets Foundry VTT 12 and later with a Simple Calendar version that 
 - Existing birthday messages prevent repeat announcements for the same actor and year. Deleting those messages removes that record. Moving the clock backward does not post announcements.
 - Birthdates use the active calendar at the time they were saved. When a leap day is missing in a later year, its anniversary falls on the last available day of its month. If the entire month is absent, that year's announcement is skipped and the age is unavailable for that year.
 
-[Simple Calendar documentation](https://simplecalendar.info/docs/developing-with-sc/api/namespaces/SimpleCalendar.api/)
+[Simple Timekeeping documentation](https://wiki.theripper93.com/premium/simple-timekeeping)
