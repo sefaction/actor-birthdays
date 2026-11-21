@@ -4,6 +4,20 @@ const dateChanged = "simple-calendar-date-time-change";
 const icon = "fas fa-cake-candles";
 
 function calendar() {
+  if (game.modules.get("simple-timekeeping")?.active) {
+    const model = game.time.calendar;
+    if (!model?.months?.values?.length) return null;
+    const yearZero = model.years.yearZero ?? 0;
+    const current = model.timeToComponents(game.time.worldTime);
+    return {
+      model, yearZero,
+      id: `simple-timekeeping:${model.name}`,
+      today: { year: current.year + yearZero, month: current.month, day: current.dayOfMonth },
+      months: model.months.values.map((month, index) => ({
+        ...month, id: String(index), name: game.i18n.localize(month.name)
+      }))
+    };
+  }
   const api = globalThis.SimpleCalendar?.api;
   const id = api?.getCurrentCalendar?.()?.id;
   const today = api?.currentDateTime?.();
@@ -16,6 +30,15 @@ function compare(a, b) {
 }
 
 function validDate(cal, date) {
+  if (!Number.isSafeInteger(date.year) || !Number.isInteger(date.month)
+      || !Number.isInteger(date.day) || date.day < 0) return false;
+  if (cal.model) {
+    const month = cal.months[date.month];
+    if (!month) return false;
+    const days = cal.model.isLeapYear(date.year - cal.yearZero)
+      ? (month.leapDays ?? month.days) : month.days;
+    return date.day < days;
+  }
   const stamp = cal.api.dateToTimestamp({ ...date, hour: 0, minute: 0, second: 0 });
   const result = Number.isFinite(stamp) && cal.api.timestampToDate(stamp);
   return result && compare(result, date) === 0;
@@ -50,7 +73,7 @@ function escapeHtml(value) {
 function openBirthday(actor) {
   const cal = calendar();
   if (!cal) {
-    ui.notifications.warn("Actor Birthdays needs an active Simple Calendar calendar.");
+    ui.notifications.warn("Actor Birthdays needs Simple Timekeeping & Calendar with a configured Foundry calendar, or Simple Calendar.");
     return;
   }
   const stored = actor.getFlag(MODULE, "birth");
@@ -217,6 +240,13 @@ function onCalendarChange() {
 Hooks.on("renderActorSheet", renderSheet);
 Hooks.on("renderApplicationV2", renderSheet);
 Hooks.on("updateActor", refreshSheets);
+Hooks.on("updateWorldTime", onCalendarChange);
+Hooks.on("initSimpleTimekeeping", () => {
+  if (game.ready) onCalendarChange();
+});
+Hooks.on("renderSimpleTimekeeping", () => {
+  if (game.ready) onCalendarChange();
+});
 Hooks.once("ready", () => {
   Hooks.on(dateChanged, onCalendarChange);
   Hooks.on("simple-calendar-ready", onCalendarChange);
