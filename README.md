@@ -12,7 +12,9 @@ https://raw.githubusercontent.com/sefaction/actor-birthdays/main/module.json
 
 1. Copy the entire `actor-birthdays` folder into your Foundry user data's `Data/modules` directory.
 2. Restart Foundry. In your world, enable Actor Birthdays and Simple Timekeeping & Calendar by TheRipper93 (or Simple Calendar) under **Manage Modules**.
-3. Open an actor sheet and click **Birthdate** in the header. Pick the in-world year, month, and day, then click **Save**. The header shows the actor's age and opens the same editor when clicked.
+3. Open an actor sheet and click **Birthdate** on the **Summary** page beside the Age field. Pick the in-world year, month, and day, then click **Save**. The calculated age appears in that spot. Click it to edit the birthdate, or hover over it to see the saved date.
+
+Pathfinder 1e character and NPC sheets display the calculated age in the Summary page's Age field location. The original Age text is preserved and becomes visible again when the tracked birthdate is cleared. Other sheet layouts use their Summary tab when available, with a header button as a fallback.
 
 Simple Timekeeping & Calendar integration requires Foundry VTT 13 or later and uses the configured Foundry world calendar. Simple Calendar 2.4 API integration remains available on Foundry VTT 12 and later. When both calendar modules are enabled, Simple Timekeeping takes priority. Birthdates saved for a different calendar remain stored and can be viewed by switching back to that calendar.
 
