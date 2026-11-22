@@ -158,8 +158,15 @@ function openBirthday(actor) {
 }
 
 function updateButton(button, actor, cal) {
-  const years = age(cal, actor.getFlag(MODULE, "birth"));
+  const birth = actor.getFlag(MODULE, "birth");
+  const years = age(cal, birth);
   button.lastElementChild.textContent = years === null ? " Birthdate" : ` Age ${years}`;
+  const ageField = button.parentElement.querySelector('input[name="system.details.age"]');
+  if (ageField) ageField.hidden = years !== null;
+  const month = cal?.months.find(month => month.id === birth?.monthId);
+  button.title = years !== null && month
+    ? `Born ${month.name} ${birth.day + 1}, ${birth.year}. Click to edit birthdate.`
+    : "View or edit birthdate";
 }
 
 function refreshSheets() {
@@ -172,19 +179,27 @@ function refreshSheets() {
 function renderSheet(app, html) {
   const actor = app.actor ?? app.document;
   if (actor?.documentName !== "Actor" || actor.pack) return;
-  const root = app.element instanceof HTMLElement ? app.element : html?.[0];
+  const root = app.element instanceof HTMLElement ? app.element : (app.element?.[0] ?? html?.[0]);
+  if (!root) return;
+  const ageField = root.querySelector('input[name="system.details.age"]');
+  const summary = root.querySelector('.tab[data-tab="summary"]');
   const header = root?.querySelector(".window-header");
-  if (!header) return;
-  let button = header.querySelector(".actor-birthdays-control");
+  const target = ageField?.parentElement ?? summary
+    ?? (root.matches(".sheet") ? header : null);
+  if (!target) return;
+  let button = root.querySelector(".actor-birthdays-control");
+  if (button && button.parentElement !== target) button.remove();
+  button = target.querySelector(".actor-birthdays-control");
   if (!button) {
     button = document.createElement("button");
     button.type = "button";
-    button.className = "header-control actor-birthdays-control";
-    button.style.width = "auto";
+    button.className = "actor-birthdays-control";
+    button.style.width = target === header ? "auto" : "100%";
+    button.style.margin = "0";
     button.title = "View or edit birthdate";
     button.innerHTML = `<i class="${icon}" aria-hidden="true"></i><span></span>`;
     button.addEventListener("click", () => openBirthday(actor));
-    header.append(button);
+    target.append(button);
     sheets.set(button, actor);
   }
   updateButton(button, actor, calendar());
